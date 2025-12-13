@@ -74,3 +74,5 @@ export const createLogger = (service: string) =>
 		defaultMeta: { service },
 		transports,
 	});
+
+export type Logger = winston.Logger;
