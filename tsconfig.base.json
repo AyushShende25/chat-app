@@ -1,0 +1,19 @@
+{
+	"$schema": "https://www.schemastore.org/tsconfig",
+	"display": "Node 24",
+	"_version": "24.0.0",
+
+	"compilerOptions": {
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"forceConsistentCasingInFileNames": true,
+
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"verbatimModuleSyntax": true,
+
+		"skipLibCheck": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true
+	}
+}
