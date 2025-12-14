@@ -32,6 +32,7 @@
 	},
 	"dependencies": {
 		"@chat-app/logger": "workspace:*",
+		"@chat-app/redis": "workspace:*",
 		"cookie-parser": "^1.4.7",
 		"cors": "^2.8.5",
 		"drizzle-orm": "^0.45.1",

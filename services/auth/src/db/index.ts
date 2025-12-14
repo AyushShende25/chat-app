@@ -1,14 +1,13 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-
-const DATABASE_URL = process.env.DATABASE_URL;
-
-if (!DATABASE_URL) {
-	throw new Error("DATABASE_URL environment variable is required");
-}
+import { env } from "../config/env";
 
 const pool = new Pool({
-	connectionString: DATABASE_URL,
+	connectionString: env.DATABASE_URL,
+	ssl: env.NODE_ENV === "production",
+	max: 10,
+	idleTimeoutMillis: 30000,
+	connectionTimeoutMillis: 2000,
 });
 
 export const db = drizzle({ client: pool });

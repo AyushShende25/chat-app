@@ -6,6 +6,8 @@ const envSchema = z.object({
 	SERVICE_NAME: z.string().default("auth"),
 	LOG_LEVEL: z.enum(["error", "warn", "info", "http", "debug"]).default("info"),
 	CLIENT_URL: z.url(),
+	REDIS_URL: z.url(),
+	DATABASE_URL: z.url(),
 });
 
 const parsedSchema = envSchema.safeParse(process.env);
