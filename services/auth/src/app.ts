@@ -1,9 +1,11 @@
+import { NotFoundError } from "@chat-app/errors";
 import type { Logger } from "@chat-app/logger";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { type Application } from "express";
 import helmet from "helmet";
 import { env } from "./config/env";
+import { errorHandler } from "./middleware/error-handler";
 import morganMiddleware from "./middleware/morgan";
 
 export const createApp = (logger: Logger): Application => {
@@ -16,6 +18,11 @@ export const createApp = (logger: Logger): Application => {
 	app.get("/health", (_req, res) => {
 		res.json({ success: true, message: "OK" });
 	});
+
+	app.all("*splat", () => {
+		throw new NotFoundError("Resource not found");
+	});
+	app.use(errorHandler);
 
 	return app;
 };
