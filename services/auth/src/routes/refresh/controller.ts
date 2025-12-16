@@ -3,6 +3,7 @@ import type { Request, Response } from "express";
 import { env } from "../../config/env";
 import { refreshTokenStore } from "../../store/refresh-token.store";
 import { signAccessToken } from "../../utils/jwt";
+
 export const refreshController = async (req: Request, res: Response) => {
 	const refreshTokenId = req.cookies?.refresh_token;
 
