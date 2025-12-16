@@ -5,7 +5,7 @@ import { timestamps } from "./timestamp";
 
 export const emailVerificationTokens = pgTable("email_verification_tokens", {
 	id: uuid("id").primaryKey().defaultRandom(),
-	userId: uuid("user_id")
+	accountId: uuid("account_id")
 		.notNull()
 		.references(() => accounts.id, {
 			onDelete: "cascade",
@@ -18,7 +18,7 @@ export const emailVerificationTokensRelations = relations(
 	emailVerificationTokens,
 	({ one }) => ({
 		account: one(accounts, {
-			fields: [emailVerificationTokens.userId],
+			fields: [emailVerificationTokens.accountId],
 			references: [accounts.id],
 		}),
 	}),

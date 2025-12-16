@@ -7,6 +7,7 @@ import helmet from "helmet";
 import { env } from "./config/env";
 import { errorHandler } from "./middleware/error-handler";
 import morganMiddleware from "./middleware/morgan";
+import authRoutes from "./routes";
 
 export const createApp = (logger: Logger): Application => {
 	const app = express();
@@ -18,6 +19,8 @@ export const createApp = (logger: Logger): Application => {
 	app.get("/health", (_req, res) => {
 		res.json({ success: true, message: "OK" });
 	});
+
+	app.use("/auth", authRoutes);
 
 	app.all("*splat", () => {
 		throw new NotFoundError("Resource not found");

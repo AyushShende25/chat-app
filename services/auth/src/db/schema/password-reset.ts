@@ -5,7 +5,7 @@ import { timestamps } from "./timestamp";
 
 export const passwordResetTokens = pgTable("password_reset_tokens", {
 	id: uuid("id").primaryKey().defaultRandom(),
-	userId: uuid("user_id")
+	accountId: uuid("account_id")
 		.notNull()
 		.references(() => accounts.id, {
 			onDelete: "cascade",
@@ -18,7 +18,7 @@ export const passwordResetTokensRelations = relations(
 	passwordResetTokens,
 	({ one }) => ({
 		account: one(accounts, {
-			fields: [passwordResetTokens.userId],
+			fields: [passwordResetTokens.accountId],
 			references: [accounts.id],
 		}),
 	}),

@@ -8,6 +8,7 @@ const envSchema = z.object({
 	CLIENT_URL: z.url(),
 	REDIS_URL: z.url(),
 	DATABASE_URL: z.url(),
+	REFRESH_TOKEN_TTL_SECONDS: z.coerce.number().default(60 * 60 * 24 * 7),
 });
 
 const parsedSchema = envSchema.safeParse(process.env);
