@@ -9,6 +9,8 @@ const envSchema = z.object({
 	REDIS_URL: z.url(),
 	DATABASE_URL: z.url(),
 	REFRESH_TOKEN_TTL_SECONDS: z.coerce.number().default(60 * 60 * 24 * 7),
+	JWT_ACCESS_SECRET: z.string(),
+	JWT_ACCESS_TTL: z.coerce.number().default(60 * 15),
 });
 
 const parsedSchema = envSchema.safeParse(process.env);
