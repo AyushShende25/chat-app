@@ -1,10 +1,14 @@
 import { createApp } from "./app";
 import { env } from "./config/env";
+import { initKafkaConsumer } from "./lib/kafka/consumer";
+import { initKafkaProducer } from "./lib/kafka/producer";
 import { logger } from "./lib/logger";
 import { initRedis } from "./lib/redis";
 
 const bootstrap = async () => {
 	await initRedis();
+	await initKafkaProducer();
+	await initKafkaConsumer();
 
 	const app = createApp(logger);
 

@@ -1,5 +1,5 @@
 {
-	"name": "auth",
+	"name": "@chat-app/auth",
 	"version": "1.0.0",
 	"private": "true",
 	"type": "module",
@@ -34,6 +34,8 @@
 		"@chat-app/logger": "workspace:*",
 		"@chat-app/redis": "workspace:*",
 		"@chat-app/errors": "workspace:*",
+		"@chat-app/kafka": "workspace:*",
+		"@chat-app/events": "workspace:*",
 		"argon2": "^0.44.0",
 		"cookie-parser": "^1.4.7",
 		"cors": "^2.8.5",

@@ -11,6 +11,9 @@ const envSchema = z.object({
 	REFRESH_TOKEN_TTL_SECONDS: z.coerce.number().default(60 * 60 * 24 * 7),
 	JWT_ACCESS_SECRET: z.string(),
 	JWT_ACCESS_TTL: z.coerce.number().default(60 * 15),
+	KAFKA_BROKERS: z
+		.string()
+		.transform((val) => val.split(",").map((s) => s.trim())),
 });
 
 const parsedSchema = envSchema.safeParse(process.env);
