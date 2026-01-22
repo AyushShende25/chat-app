@@ -1,7 +1,9 @@
+import { AUTH_TOPICS } from "@chat-app/events";
 import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { accounts } from "../db/schema/account";
 import { passwordResetTokens } from "../db/schema/password-reset";
+import { publishAuthEvent } from "../events/publish";
 import type { ForgotPasswordInput } from "./../routes/password-reset/schema";
 
 const RESET_TOKEN_TTL_MS = 1000 * 60 * 60;
@@ -26,5 +28,13 @@ export const forgotPassword = async (
 		expiresAt: new Date(Date.now() + RESET_TOKEN_TTL_MS),
 	});
 
-	// TODO: Send Reset Password link
+	await publishAuthEvent({
+		topic: AUTH_TOPICS.ACCOUNT_PASSWORD_RESET_REQUESTED,
+		key: account.id,
+		value: {
+			accountId: account.id,
+			email: account.email,
+			resetToken: token,
+		},
+	});
 };

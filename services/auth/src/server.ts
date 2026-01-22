@@ -1,5 +1,6 @@
 import { createApp } from "./app";
 import { env } from "./config/env";
+import { startSecurityConsumer } from "./consumers/security";
 import { initKafkaConsumer } from "./lib/kafka/consumer";
 import { initKafkaProducer } from "./lib/kafka/producer";
 import { logger } from "./lib/logger";
@@ -9,6 +10,7 @@ const bootstrap = async () => {
 	await initRedis();
 	await initKafkaProducer();
 	await initKafkaConsumer();
+	await startSecurityConsumer();
 
 	const app = createApp(logger);
 

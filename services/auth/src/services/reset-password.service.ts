@@ -1,16 +1,21 @@
 import { BadRequestError } from "@chat-app/errors";
+import { AUTH_TOPICS } from "@chat-app/events";
 import { and, eq, gt } from "drizzle-orm";
 import { db } from "../db";
 import { accounts } from "../db/schema/account";
 import { passwordResetTokens } from "../db/schema/password-reset";
+import { publishAuthEvent } from "../events/publish";
 import type { ResetPasswordInput } from "./../routes/password-reset/schema";
-import { refreshTokenStore } from "../store/refresh-token.store";
 import { hashPassword } from "../utils/password";
 
 export const resetPassword = async (resetPasswordInput: ResetPasswordInput) => {
 	const [record] = await db
-		.select()
+		.select({
+			accountId: passwordResetTokens.accountId,
+			email: accounts.email,
+		})
 		.from(passwordResetTokens)
+		.innerJoin(accounts, eq(accounts.id, passwordResetTokens.accountId))
 		.where(
 			and(
 				eq(passwordResetTokens.id, resetPasswordInput.token),
@@ -34,7 +39,12 @@ export const resetPassword = async (resetPasswordInput: ResetPasswordInput) => {
 			.where(eq(passwordResetTokens.id, resetPasswordInput.token));
 	});
 
-	await refreshTokenStore.revokeAll(record.accountId);
-
-	// TODO: Send password reset successful email
+	await publishAuthEvent({
+		topic: AUTH_TOPICS.ACCOUNT_PASSWORD_RESET_COMPLETED,
+		key: record.accountId,
+		value: {
+			accountId: record.accountId,
+			email: record.email,
+		},
+	});
 };

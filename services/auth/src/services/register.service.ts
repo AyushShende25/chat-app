@@ -1,8 +1,10 @@
 import { ConflictError } from "@chat-app/errors";
+import { AUTH_TOPICS } from "@chat-app/events";
 import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { accounts } from "../db/schema/account";
 import { emailVerificationTokens } from "../db/schema/email-verification";
+import { publishAuthEvent } from "../events/publish";
 import type { RegisterInput } from "../routes/register/schema";
 import { hashPassword } from "../utils/password";
 
@@ -12,6 +14,7 @@ export const registerAccount = async (registerInput: RegisterInput) => {
 		.select()
 		.from(accounts)
 		.where(eq(accounts.email, email));
+	console.log(existingAcc, "e");
 
 	if (existingAcc.length > 0) {
 		throw new ConflictError("Account already exists");
@@ -37,7 +40,13 @@ export const registerAccount = async (registerInput: RegisterInput) => {
 		accountId: account.id,
 		expiresAt: new Date(Date.now() + 1000 * 60 * 60),
 	});
-	// TODO: SEND VERIFICATION TOKEN EMAIL
+
+	await publishAuthEvent({
+		topic: AUTH_TOPICS.ACCOUNT_CREATED,
+		key: account.id,
+		value: { accountId: account.id, email: account.email, verificationToken },
+	});
+
 	return {
 		accountId: account.id,
 		verificationToken,
