@@ -44,20 +44,36 @@ services:
       container_name: auth-postgres
       restart: unless-stopped
       environment:
-        - POSTGRES_USER=chat_app_admin
-        - POSTGRES_PASSWORD=chat_app_admin
-        - POSTGRES_DB=chat_app_db
+        - POSTGRES_USER=auth_admin
+        - POSTGRES_PASSWORD=auth_admin
+        - POSTGRES_DB=auth_db
       volumes:
         - auth_pgdata:/var/lib/postgresql/data
       networks:
         - chat-app-network
       ports:
         - "5432:5432"
+      
+  users-postgres:
+    image: postgres:17
+    container_name: users-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=users_admin
+      - POSTGRES_PASSWORD=users_admin
+      - POSTGRES_DB=users_db
+    volumes:
+      - users_pgdata:/var/lib/postgresql/data
+    networks:
+      - chat-app-network
+    ports:
+      - "5433:5432" 
 
 volumes:
   kafka-data:
   redis_data:
   auth_pgdata:
+  users_pgdata:
 
 networks:
   chat-app-network:
