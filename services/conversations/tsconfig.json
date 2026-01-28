@@ -1,0 +1,13 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"lib": ["es2024"],
+		"module": "esnext",
+		"target": "es2024",
+		"moduleResolution": "bundler",
+		"types": ["node"],
+		"noEmit": true,
+		"outDir": "dist"
+	},
+	"include": ["src", "drizzle.config.ts"]
+}
