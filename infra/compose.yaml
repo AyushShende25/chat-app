@@ -68,13 +68,43 @@ services:
       - chat-app-network
     ports:
       - "5433:5432" 
+  conversations-postgres:
+    image: postgres:17
+    container_name: conversations-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=conversations_admin
+      - POSTGRES_PASSWORD=conversations_admin
+      - POSTGRES_DB=conversations_db
+    volumes:
+      - conversations_pgdata:/var/lib/postgresql/data
+    networks:
+      - chat-app-network
+    ports:
+      - "5434:5432" 
+  messages-postgres:
+    image: postgres:17
+    container_name: messages-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=messages_admin
+      - POSTGRES_PASSWORD=messages_admin
+      - POSTGRES_DB=messages_db
+    volumes:
+      - messages_pgdata:/var/lib/postgresql/data
+    networks:
+      - chat-app-network
+    ports:
+      - "5435:5432" 
 
 volumes:
   kafka-data:
   redis_data:
   auth_pgdata:
   users_pgdata:
-
+  conversations_pgdata:
+  messages_pgdata:
+  
 networks:
   chat-app-network:
     name: chat-app-network
