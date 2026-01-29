@@ -2,6 +2,7 @@ import {
 	integer,
 	jsonb,
 	pgTable,
+	primaryKey,
 	text,
 	timestamp,
 	uuid,
@@ -27,3 +28,20 @@ export const messages = pgTable("messages", {
 		.notNull()
 		.defaultNow(),
 });
+
+export const conversationRefs = pgTable("conversation_refs", {
+	id: uuid("id").primaryKey(),
+	type: varchar("type", { length: 20 }).notNull(), // direct | group
+	createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const conversationParticipantRefs = pgTable(
+	"conversation_participant_refs",
+	{
+		conversationId: uuid("conversation_id")
+			.references(() => conversationRefs.id, { onDelete: "cascade" })
+			.notNull(),
+		userId: uuid("user_id").notNull(),
+	},
+	(t) => [primaryKey({ columns: [t.conversationId, t.userId] })],
+);
