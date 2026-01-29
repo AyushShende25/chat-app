@@ -2,8 +2,7 @@ import { BadRequestError } from "@chat-app/errors";
 import { AUTH_TOPICS } from "@chat-app/events";
 import { and, eq, gt } from "drizzle-orm";
 import { db } from "../db";
-import { accounts } from "../db/schema/account";
-import { emailVerificationTokens } from "../db/schema/email-verification";
+import { accounts, emailVerificationTokens } from "../db/schema";
 import { publishAuthEvent } from "../events/publish";
 import type { VerifyEmailInput } from "./../routes/verify-email/schema";
 

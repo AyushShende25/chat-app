@@ -1,7 +1,7 @@
 import { ConflictError, NotFoundError } from "@chat-app/errors";
 import { DrizzleQueryError, eq } from "drizzle-orm";
 import { db } from "../db";
-import { users } from "../db/schema/user";
+import { users } from "../db/schema";
 import type { UpdateUserInput } from "../routes/me/schema";
 
 export const getUser = async (userId: string) => {

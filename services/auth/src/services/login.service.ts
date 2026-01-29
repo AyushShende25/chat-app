@@ -1,7 +1,7 @@
 import { BadRequestError, UnauthorizedError } from "@chat-app/errors";
 import { eq } from "drizzle-orm";
 import { db } from "../db";
-import { accounts } from "../db/schema/account";
+import { accounts } from "../db/schema";
 import type { LoginInput } from "./../routes/login/schema";
 import { verifyPassword } from "../utils/password";
 

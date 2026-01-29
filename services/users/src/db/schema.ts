@@ -1,5 +1,4 @@
-import { pgTable, uuid, varchar } from "drizzle-orm/pg-core";
-import { timestamps } from "./timestamp";
+import { pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
 	id: uuid("id").primaryKey(),
@@ -7,5 +6,11 @@ export const users = pgTable("users", {
 	displayName: varchar("display_name", { length: 100 }).notNull(),
 	avatarUrl: varchar("avatar_url", { length: 500 }),
 	bio: varchar("bio", { length: 500 }),
-	...timestamps,
+	createdAt: timestamp("created_at", { withTimezone: true })
+		.notNull()
+		.defaultNow(),
+	updatedAt: timestamp("updated_at", { withTimezone: true })
+		.notNull()
+		.defaultNow()
+		.$onUpdate(() => new Date()),
 });

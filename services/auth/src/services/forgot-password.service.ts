@@ -1,8 +1,7 @@
 import { AUTH_TOPICS } from "@chat-app/events";
 import { eq } from "drizzle-orm";
 import { db } from "../db";
-import { accounts } from "../db/schema/account";
-import { passwordResetTokens } from "../db/schema/password-reset";
+import { accounts, passwordResetTokens } from "../db/schema";
 import { publishAuthEvent } from "../events/publish";
 import type { ForgotPasswordInput } from "./../routes/password-reset/schema";
 

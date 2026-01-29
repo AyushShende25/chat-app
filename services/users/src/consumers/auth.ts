@@ -1,6 +1,6 @@
 import { AUTH_TOPICS, type AuthEventMap } from "@chat-app/events";
 import { db } from "../db";
-import { users } from "../db/schema/user";
+import { users } from "../db/schema";
 import { kafkaConsumer } from "../lib/kafka/consumer";
 import { generateUsername } from "../utils/username";
 
