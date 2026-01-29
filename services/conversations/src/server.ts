@@ -1,5 +1,6 @@
 import { createApp } from "./app";
 import { env } from "./config/env";
+import { startMessageConsumer } from "./consumers/message";
 import { initKafkaConsumer } from "./lib/kafka/consumer";
 import { initKafkaProducer } from "./lib/kafka/producer";
 import { logger } from "./lib/logger";
@@ -7,6 +8,7 @@ import { logger } from "./lib/logger";
 const bootstrap = async () => {
 	await initKafkaProducer();
 	await initKafkaConsumer();
+	await startMessageConsumer();
 
 	const app = createApp(logger);
 
